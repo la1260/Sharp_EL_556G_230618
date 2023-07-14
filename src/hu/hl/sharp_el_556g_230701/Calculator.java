@@ -14,6 +14,7 @@ public class Calculator implements InputListener, StackListener {
 	private void reset() {
 		result= null;
 		stack.reset();
+		if (input!=null) input.reset();
 	}
 	public void key(int keycode) {
 		if (-1<keycode)	{
