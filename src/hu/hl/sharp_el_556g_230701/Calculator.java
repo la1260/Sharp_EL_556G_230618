@@ -8,7 +8,7 @@ import java.text.DecimalFormatSymbols;
 import hu.hl.sharp_el_556g_230701.Main.Base;
 import hu.hl.sharp_el_556g_230701.Main.Fse;
 
-public class Calculator implements InputListener {
+public class Calculator {
 	private final CalculatorListener calculatorlistener;
 	public Stack stack= new Stack();
 	public Calculator(CalculatorListener calculatorlistener) {
@@ -20,14 +20,16 @@ public class Calculator implements InputListener {
 	private int prevopcode;
 	private BigDecimal previnput;
 	public void key(int keycode) {
+		String[] s;
 		if (-1<keycode)	{
 			if (keycode<21 && keycode!=16) {
 				if (keycode==19 && input==null) {
 					prevopcode= stack.getLastOperator();
 				} else {
-					if (input==null) input= new Input(this);
+					if (input==null) input= new Input();
 					input.key(keycode);
 				}
+				s= new String[]{input.n0+input.i0+"."+input.i1, (input.i2.isEmpty()) ? "" : input.n1+input.i2};
 			} else {
 				if (keycode==16) {
 					stack.reset();
@@ -44,14 +46,13 @@ public class Calculator implements InputListener {
 					result= stack.push(previnput= input.getValue(), keycode);
 				} else if (result!=null && keycode!=26) {
 					result= stack.push(result, keycode);
-				} else {
+				} else if (keycode!=21){
 					result= stack.push(null, keycode);
 				}
 				input= null;
-				
-				String[] s= (result==null) ? new String[]{"ide kell vmi", ""} : print(result, Base.Dec, Fse.Nrm, 4);
-				update("", s[0], s[1]);
+				s= (result==null) ? new String[]{"ide kell vmi", ""} : print(result, Base.Dec, Fse.Nrm, 4);
 			}
+			update("", s[0], s[1]);
 			System.out.println(stack.stack0);
 			System.out.println(stack.stack1);
 		}
@@ -59,8 +60,7 @@ public class Calculator implements InputListener {
 	public void update(String s0, String s1, String s2) {
 		calculatorlistener.onChange(s0, s1, s2);
 	}
-	
-	
+		
 	
 	private static DecimalFormat df= new DecimalFormat();
     static {

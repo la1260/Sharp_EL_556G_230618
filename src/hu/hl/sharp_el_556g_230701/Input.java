@@ -3,15 +3,13 @@ package hu.hl.sharp_el_556g_230701;
 import java.math.BigDecimal;
 
 public class Input {
-	private final InputListener inputlistener;
 	private int ii;
-	private String n0;
-	private String i0;
-	private String i1;
-	private String n1;
-	private String i2;
-	public Input(InputListener inputlistener) {
-		this.inputlistener= inputlistener;
+	public String n0;
+	public String i0;
+	public String i1;
+	public String n1;
+	public String i2;
+	public Input() {
 		reset();
 		key(16);
 	}
@@ -92,7 +90,6 @@ public class Input {
 			}
 			break;
 		}
-		inputlistener.update("", n0+i0+"."+i1, (i2.isEmpty()) ? "" : n1+i2);
 	}
 	private void appendInput(String s) {
 		switch (ii) {
@@ -111,8 +108,4 @@ public class Input {
 	public BigDecimal getValue() {
 		return new BigDecimal(n0+i0+((!i1.isEmpty()) ? "."+i1 : "")+((!i2.isEmpty()) ? "e"+n1+i2 : ""));
 	}
-}
-
-interface InputListener {
-	public void update(String s0, String s1, String s2);
 }
