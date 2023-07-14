@@ -19,28 +19,39 @@ public class Calculator {
 	private BigDecimal result;
 	private int prevopcode;
 	private BigDecimal previnput;
+	private boolean swap;
 	public void key(int keycode) {
 		String[] s;
 		if (-1<keycode)	{
 			if (keycode<21 && keycode!=16) {
-				if (keycode==19 && input==null) {
-					prevopcode= stack.getLastOperator();
+				if (keycode==19) {
+					if (-1<prevopcode) {
+						swap= !swap;
+					}
+					if (input==null) {
+						prevopcode= stack.getLastOperator();
+					}
 				} else {
 					if (input==null) input= new Input();
 					input.key(keycode);
 				}
-				s= new String[]{input.n0+input.i0+"."+input.i1, (input.i2.isEmpty()) ? "" : input.n1+input.i2};
+				s= (input==null) ? new String[]{"ide kell vmi 1.", ""} : new String[]{input.n0+input.i0+"."+input.i1, (input.i2.isEmpty()) ? "" : input.n1+input.i2};
 			} else {
 				if (keycode==16) {
 					stack.reset();
 					prevopcode= -1;
+					swap= false;
 					result= stack.push(BigDecimal.ZERO, 21);
 				} else if (keycode==21 && -1<prevopcode) {
 					if (input!=null) {
 						stack.reset();
 						result= stack.push(input.getValue(), prevopcode);
 					}
-					result= stack.push(previnput, 21);
+					if (swap) {
+						result= stack.push(previnput, 21);
+					} else {
+						result= stack.push(stack.swap(previnput), 21);
+					}
 					stack.push(result, prevopcode);
 				} else if (input!=null) {
 					result= stack.push(previnput= input.getValue(), keycode);
@@ -50,11 +61,18 @@ public class Calculator {
 					result= stack.push(null, keycode);
 				}
 				input= null;
-				s= (result==null) ? new String[]{"ide kell vmi", ""} : print(result, Base.Dec, Fse.Nrm, 4);
+				s= (result==null) ? new String[]{"ide kell vmi 2.", ""} : print(result, Base.Dec, Fse.Nrm, 4);
 			}
 			update("", s[0], s[1]);
-			System.out.println(stack.stack0);
-			System.out.println(stack.stack1);
+			System.out.println(
+				keycode+"\t"+
+				input+"\t"+
+				result+"\t"+
+				previnput+"\t"+
+				prevopcode+"\t"+
+				stack.stack0+"\t"+
+				stack.stack1
+			);
 		}
 	}
 	public void update(String s0, String s1, String s2) {

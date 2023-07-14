@@ -19,6 +19,11 @@ public class Stack {
 		stack1.clear();
 		pl= 0;
 	}
+	public BigDecimal swap(BigDecimal operand) {
+		BigDecimal result= stack0.pop();
+		stack0.push(operand);
+		return result;
+	}
 	public BigDecimal push(BigDecimal operand, int operator) {
 		BigDecimal result= null;
 		switch (operator) {

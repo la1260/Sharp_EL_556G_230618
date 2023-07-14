@@ -108,4 +108,7 @@ public class Input {
 	public BigDecimal getValue() {
 		return new BigDecimal(n0+i0+((!i1.isEmpty()) ? "."+i1 : "")+((!i2.isEmpty()) ? "e"+n1+i2 : ""));
 	}
+	public String toString() {
+		return getValue().toString();
+	}
 }
