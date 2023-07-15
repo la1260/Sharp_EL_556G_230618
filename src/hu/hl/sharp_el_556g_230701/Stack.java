@@ -3,11 +3,6 @@ package hu.hl.sharp_el_556g_230701;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-
-import hu.hl.sharp_el_556g_230701.Main.Base;
-import hu.hl.sharp_el_556g_230701.Main.Fse;
 
 public class Stack {
 	private static final MathContext mathcontext= new MathContext(18, RoundingMode.HALF_UP);

@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class Main implements KeyListener, CalculatorListener {
+public class Main implements KeyListener {
 	private JFrame frame;
 	private JLabel label0;
 	private JLabel label1;
@@ -168,16 +168,17 @@ public class Main implements KeyListener, CalculatorListener {
 		label2.setBackground(Color.GREEN);
 		label2.setVisible(true);
 		
-		calculator= new Calculator(this);
+		calculator= new Calculator();
+		keyPressed(new KeyEvent(frame, -1, -1, -1, KeyEvent.VK_ESCAPE)); //ez kell!!!
 		
 /*		keyPressed(new KeyEvent(frame, -1, -1, -1, '1'));
 		keyPressed(new KeyEvent(frame, -1, -1, -1, '+'));
 		keyPressed(new KeyEvent(frame, -1, -1, -1, '*'));
 		keyPressed(new KeyEvent(frame, -1, -1, -1, '2'));
-		keyPressed(new KeyEvent(frame, -1, -1, -1, '='));*/
-
-/*		keyPressed(new KeyEvent(frame, -1, -1, -1, '1'));
-		keyPressed(new KeyEvent(frame, -1, -1, -1, '*'));
+		keyPressed(new KeyEvent(frame, -1, -1, -1, '='));
+*/
+		keyPressed(new KeyEvent(frame, -1, -1, -1, '1'));
+//		keyPressed(new KeyEvent(frame, -1, -1, -1, '*'));
 		keyPressed(new KeyEvent(frame, -1, -1, -1, '+'));
 		keyPressed(new KeyEvent(frame, -1, -1, -1, '2'));
 //		keyPressed(new KeyEvent(frame, -1, -1, -1, '*'));
@@ -199,7 +200,7 @@ public class Main implements KeyListener, CalculatorListener {
 		keyPressed(new KeyEvent(frame, -1, -1, -1, ')'));
 		keyPressed(new KeyEvent(frame, -1, -1, -1, ')'));
 		keyPressed(new KeyEvent(frame, -1, -1, -1, '='));
-*/
+
 	}
 	public void keyPressed(KeyEvent keyevent) {
 		int i= (keyevent.getKeyChar()==KeyEvent.CHAR_UNDEFINED) ? keyevent.getKeyCode()+256 : keyevent.getKeyChar();
@@ -321,22 +322,11 @@ public class Main implements KeyListener, CalculatorListener {
 			c= 34;
 			break;
 		}
-		calculator.key(c);
-/*		if (-1<c) {
-			System.out.println((long) c);
-		}*/
-		
-//		frame.setTitle("send: "+keyevent.getKeyChar());
+		String[] s= calculator.key(c);
+		label0.setText("");
+		label1.setText(s[0]);
+		label2.setText(s[1]);
 	}
 	public void keyTyped(KeyEvent keyevent) {}
 	public void keyReleased(KeyEvent keyevent) {}
-	public void onChange(String s0, String s1, String s2) {
-		label0.setText(s0);
-		label1.setText(s1);
-		label2.setText(s2);
-	}
-}
-
-class Er2 extends Exception {
-	private static final long serialVersionUID = 1L;
 }

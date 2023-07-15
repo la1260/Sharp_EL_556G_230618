@@ -9,19 +9,14 @@ import hu.hl.sharp_el_556g_230701.Main.Base;
 import hu.hl.sharp_el_556g_230701.Main.Fse;
 
 public class Calculator {
-	private final CalculatorListener calculatorlistener;
 	public Stack stack= new Stack();
-	public Calculator(CalculatorListener calculatorlistener) {
-		this.calculatorlistener= calculatorlistener;
-		key(16);
-	}
 	private Input input;
 	private BigDecimal result;
 	private int prevopcode;
 	private BigDecimal previnput;
 	private boolean swap;
-	public void key(int keycode) {
-		String[] s;
+	public String[] key(int keycode) {
+		String[] s= {null, null, null};
 		if (-1<keycode)	{
 			if (keycode<21 && keycode!=16) {
 				if (keycode==19) {
@@ -57,13 +52,12 @@ public class Calculator {
 					result= stack.push(previnput= input.getValue(), keycode);
 				} else if (result!=null && keycode!=26) {
 					result= stack.push(result, keycode);
-				} else if (keycode!=21){
+				} else {
 					result= stack.push(null, keycode);
 				}
 				input= null;
 				s= (result==null) ? new String[]{"ide kell vmi 2.", ""} : print(result, Base.Dec, Fse.Nrm, 4);
 			}
-			update("", s[0], s[1]);
 			System.out.println(
 				keycode+"\t"+
 				input+"\t"+
@@ -74,12 +68,8 @@ public class Calculator {
 				stack.stack1
 			);
 		}
+		return s;
 	}
-	public void update(String s0, String s1, String s2) {
-		calculatorlistener.onChange(s0, s1, s2);
-	}
-		
-	
 	private static DecimalFormat df= new DecimalFormat();
     static {
 		DecimalFormatSymbols dfs= new DecimalFormatSymbols();
@@ -148,6 +138,6 @@ public class Calculator {
 	}	
 }
 
-interface CalculatorListener {
-	public void onChange(String s0, String s1, String s2);
+class Er2 extends Exception {
+	private static final long serialVersionUID = 1L;
 }
