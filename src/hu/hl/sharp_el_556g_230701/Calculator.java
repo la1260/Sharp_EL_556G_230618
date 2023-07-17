@@ -25,6 +25,8 @@ public class Calculator {
 					}
 					if (input==null) {
 						prevopcode= stack.getLastOperator();
+					} else {
+						input.key(keycode);
 					}
 				} else {
 					if (input==null) input= new Input();

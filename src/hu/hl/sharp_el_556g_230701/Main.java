@@ -177,7 +177,7 @@ public class Main implements KeyListener {
 		keyPressed(new KeyEvent(frame, -1, -1, -1, '2'));
 		keyPressed(new KeyEvent(frame, -1, -1, -1, '='));
 */
-		keyPressed(new KeyEvent(frame, -1, -1, -1, '1'));
+/*		keyPressed(new KeyEvent(frame, -1, -1, -1, '1'));
 //		keyPressed(new KeyEvent(frame, -1, -1, -1, '*'));
 		keyPressed(new KeyEvent(frame, -1, -1, -1, '+'));
 		keyPressed(new KeyEvent(frame, -1, -1, -1, '2'));
@@ -200,7 +200,7 @@ public class Main implements KeyListener {
 		keyPressed(new KeyEvent(frame, -1, -1, -1, ')'));
 		keyPressed(new KeyEvent(frame, -1, -1, -1, ')'));
 		keyPressed(new KeyEvent(frame, -1, -1, -1, '='));
-
+*/
 	}
 	public void keyPressed(KeyEvent keyevent) {
 		int i= (keyevent.getKeyChar()==KeyEvent.CHAR_UNDEFINED) ? keyevent.getKeyCode()+256 : keyevent.getKeyChar();
