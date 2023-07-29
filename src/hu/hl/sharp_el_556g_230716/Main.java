@@ -7,11 +7,14 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import java.math.BigDecimal;
+
 public class Main implements KeyListener {
 	private JFrame frame;
 	private JLabel label0;
 	private JLabel label1;
 	private JLabel label2;
+	private Calculator calculator;
 	public static void main(String[] args) {
 		new Main();
 	}
@@ -41,7 +44,7 @@ public class Main implements KeyListener {
 		label2.setBackground(Color.GREEN);
 		label2.setVisible(true);
 		
-//		calculator= new Calculator();
+		calculator = new Calculator();
 		keyPressed(new KeyEvent(frame, -1, -1, -1, KeyEvent.VK_ESCAPE)); //ez kell!!!
 
 	}
@@ -164,6 +167,15 @@ public class Main implements KeyListener {
 		case KeyEvent.VK_F8+256: //hex
 			c= 34;
 			break;
+		default:
+			c= -1;
+			break;
+		}
+		if (-1<c) {
+			String[] s= calculator.key(c);
+			label0.setText("");
+			label1.setText(s[0]);
+			label2.setText(s[1]);
 		}
 	}
 	public void keyTyped(KeyEvent keyevent) {}
