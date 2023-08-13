@@ -8,6 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.text.DecimalFormat;
+
 
 public class Main implements KeyListener {
 	private JFrame frame;
@@ -15,7 +18,53 @@ public class Main implements KeyListener {
 	private JLabel label1;
 	private JLabel label2;
 	private Calculator calculator;
+	private static String fmt(BigDecimal bd, Fse fse, int tab) {
+		DecimalFormat df= new DecimalFormat("0.000000000E00");
+		int e= Integer.valueOf(df.format(bd).split("E")[1]);
+		if (fse.equals(Fse.Eng)) {
+			return "eng";
+		} else if (fse.equals(Fse.Nrm) && -10<e && e<10) {
+			return "nrm"; 
+		} else if (fse.equals(Fse.Fix) && e<=-10) {
+			return "0";
+		} else if (fse.equals(Fse.Fix) && e<10) {
+			return "fix";
+		} else {
+			return "sci";
+		}
+	}
 	public static void main(String[] args) {
+/*		BigDecimal bd0= new BigDecimal(9999999999.5);// 1e+10
+		BigDecimal bd1= new BigDecimal(9999999999.4);// 9999999999
+		
+		BigDecimal bd2= new BigDecimal(0.000000001);// 0.000000001
+		BigDecimal bd3= new BigDecimal(0.0000000009);// 9e-10
+
+		BigDecimal bd4= new BigDecimal(-0.0000000009);// -9e-10
+		BigDecimal bd5= new BigDecimal(-0.000000001);// -0.000000001
+		
+		BigDecimal bd6= new BigDecimal(-9999999999.4);// -9999999999
+		BigDecimal bd7= new BigDecimal(-9999999999.5);// -1e+10
+		
+		
+		System.out.println(fmt(bd0, Fse.Eng, 4));
+		System.out.println(fmt(bd1, Fse.Eng, 4));
+		System.out.println(fmt(bd2, Fse.Eng, 4));
+		System.out.println(fmt(bd3, Fse.Eng, 4));
+		System.out.println(fmt(bd4, Fse.Eng, 4));
+		System.out.println(fmt(bd5, Fse.Eng, 4));
+		System.out.println(fmt(bd6, Fse.Eng, 4));
+		System.out.println(fmt(bd7, Fse.Eng, 4));*/
+/*		
+		DecimalFormat df= new DecimalFormat();
+		df.setGroupingUsed(false);
+		df.setMaximumIntegerDigits(10);
+		df.setMinimumIntegerDigits(1);
+		df.setMaximumFractionDigits(9);
+		df.setMinimumFractionDigits(0);
+		System.out.println(df.format(9999999999d));
+		System.out.println(df.format(9999999999.5d));*/
+		
 		new Main();
 	}
 	public Main() {

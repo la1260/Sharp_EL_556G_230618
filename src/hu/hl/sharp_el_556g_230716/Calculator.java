@@ -1,6 +1,7 @@
 package hu.hl.sharp_el_556g_230716;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -8,6 +9,16 @@ import java.util.TreeMap;
 
 public class Calculator {
 	private Var var= new Var();
+	private static MathContext mc= new MathContext(10, RoundingMode.HALF_UP);
+	private static DecimalFormat df0= new DecimalFormat("0.000000000E00");
+	private static DecimalFormat df1= new DecimalFormat();
+	static {
+		DecimalFormatSymbols dfs= new DecimalFormatSymbols();
+		dfs.setDecimalSeparator('.');
+		df1.setDecimalFormatSymbols(dfs);    	
+		df1.setGroupingUsed(false);
+		df1.setRoundingMode(RoundingMode.HALF_UP);		
+	}
 	public String[] key(int keycode) {
 		switch (keycode) {
 		case 16:
@@ -17,7 +28,7 @@ public class Calculator {
 			var.putString("inputfract", "");
 			var.putString("inputexpsgn", "");
 			var.putString("inputexp", "");
-			var.putBigDecimal("acc", null);
+			var.putBigDecimal("ans", null);
 			break;
 		case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9:
 			switch (var.getInt("inputtype")) {
@@ -74,7 +85,7 @@ public class Calculator {
 			}
 			break;
 		case 21:
-			inputToAcc(var);
+			inputToAns(var);
 			break;
 		case 22:
 			
@@ -86,57 +97,55 @@ public class Calculator {
 		
 		System.out.println(var);
 		String[] result= new String[]{"", "", ""};
-		if (var.getBigDecimal("acc")==null) {
+		if (var.getBigDecimal("ans")==null) {
 			result[0]= var.getString("inputintsgn")+var.getString("inputint")+"."+var.getString("inputfract");
 			result[1]= var.getString("inputexpsgn")+var.getString("inputexp");
 		} else {
-			int m= Integer.valueOf(new DecimalFormat("0E0").format(var.getBigDecimal("acc")).split("E")[1]);
-			if (-10<m && m<10)  {
-				String s= new DecimalFormat("0E0").format(bn     var.getBigDecimal("acc"));
-				result[0]= 
-			} else {
-				
-			}
-				
-			/*
-			if (-1<var.getBigDecimal("acc").compareTo(new BigDecimal(1e+10))) {
-				System.out.println("egzik"); // nagyobb vagy egyenlő, mint 1e+10
-			} else if (var.getBigDecimal("acc").compareTo(new BigDecimal(-1e+10))<1) {
-				System.out.println("masik"); // kisebb vagy egyenlő, mint -1e+10
-			} else if (var.getBigDecimal("acc").compareTo(new BigDecimal(-1e+10))<1) {
-				System.out.println("harmadik");
-			} else {
-				System.out.println("negyedik");
-			}*/
-			
-/*			switch (var.getInt("acctype")) {
-			case 0:
-				result[0]= var.getBigDecimal("acc").toString()+".";
-				break;
-			case 1:
-				result[0]= var.getBigDecimal("acc").toString();
-				break;
-			case 2:
-				result[0]= var.getBigDecimal("acc").
-				result[1]= var.getBigDecimal("acc").toString()+".";
-				break;
-			}*/
+			result= regToOut(var, "ans");
 		}
 		return result;
 	}
-	private static void inputToAcc(Var var) {
+	private static void inputToAns(Var var) {
 		int inputtype= var.getInt("inputtype");
 		switch (inputtype) {
 		case 0:
-			var.putBigDecimal("acc", new BigDecimal(var.getString("inputintsgn")+var.getString("inputint")));
+			var.putBigDecimal("ans", new BigDecimal(var.getString("inputintsgn")+var.getString("inputint")));
 			break;
 		case 1:
-			var.putBigDecimal("acc", new BigDecimal(var.getString("inputintsgn")+var.getString("inputint")+"."+var.getString("inputfract")));
+			var.putBigDecimal("ans", new BigDecimal(var.getString("inputintsgn")+var.getString("inputint")+"."+var.getString("inputfract")));
 			break;
 		case 2:
-			var.putBigDecimal("acc", new BigDecimal(var.getString("inputintsgn")+var.getString("inputint")+"."+var.getString("inputfract")+"E"+var.getString("inputexpsgn")+var.getString("inputexp")));
+			var.putBigDecimal("ans", new BigDecimal(var.getString("inputintsgn")+var.getString("inputint")+"."+var.getString("inputfract")+"E"+var.getString("inputexpsgn")+var.getString("inputexp")));
 			break;
 		}
+	}
+	private static String[] regToOut(Var var, String regid) {
+		String[] result= new String[]{"", "", ""};
+		BigDecimal bd= var.getBigDecimal(regid).round(mc);
+		Fse fse= Fse.values()[var.getInt("fse")];
+		int tab= var.getInt("tab");
+		int e= Integer.valueOf(df0.format(bd).split("E")[1]);
+		if (fse.equals(Fse.Eng)) { //eng
+			int b= 2-Math.floorMod(e, 3);
+			df1.applyPattern("000.000000000".substring(b, Integer.min(b+7, tab)+4)+"E00");
+			result= df1.format(bd).split("E");
+		} else if (fse.equals(Fse.Nrm) && -10<e && e<10) { //nrm
+			df1.applyPattern("0.#########");
+			result[0]= df1.format(bd);
+			result[1]= "";
+		} else if (fse.equals(Fse.Fix) && e<=-10) { //fix; 0<x<1e-9 -> 0
+			result[0]= "0."+"0".repeat(tab);
+			result[1]= "";
+		} else if (fse.equals(Fse.Fix) && e<10) { //fix
+			int b= Integer.min(9, 9-e);
+			df1.applyPattern("0000000000.000000000".substring(b, Integer.min(b+11, tab+11)));
+			result[0]= df1.format(bd);
+			result[1]= "";
+		} else { //sci
+			df1.applyPattern("0.000000000".substring(0, tab+2)+"E00");
+			result= df1.format(bd).split("E");
+		}
+		return result;
 	}
 }
 
@@ -147,6 +156,10 @@ class Var {
 	private TreeMap<String, Integer> ints= new TreeMap<String, Integer>();
 	private TreeMap<String, String> strings= new TreeMap<String, String>();
 	private TreeMap<String, BigDecimal> bigdecimals= new TreeMap<String, BigDecimal>();
+	public Var() {
+		putInt("fse", Fse.Eng.ordinal());
+		putInt("tab", 4);
+	}
 	public int getInt(String id) {
 		return ints.get(id);
 	}
