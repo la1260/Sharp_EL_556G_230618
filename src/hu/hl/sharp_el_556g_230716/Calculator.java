@@ -9,16 +9,7 @@ import java.util.TreeMap;
 
 public class Calculator {
 	private Var var= new Var();
-	private static MathContext mc= new MathContext(10, RoundingMode.HALF_UP);
-	private static DecimalFormat df0= new DecimalFormat("0.000000000E00");
-	private static DecimalFormat df1= new DecimalFormat();
-	static {
-		DecimalFormatSymbols dfs= new DecimalFormatSymbols();
-		dfs.setDecimalSeparator('.');
-		df1.setDecimalFormatSymbols(dfs);    	
-		df1.setGroupingUsed(false);
-		df1.setRoundingMode(RoundingMode.HALF_UP);		
-	}
+	private Reg ans= new Reg();
 	public String[] key(int keycode) {
 		switch (keycode) {
 		case 16:
@@ -101,7 +92,7 @@ public class Calculator {
 			result[0]= var.getString("inputintsgn")+var.getString("inputint")+"."+var.getString("inputfract");
 			result[1]= var.getString("inputexpsgn")+var.getString("inputexp");
 		} else {
-			result= regToOut(var, "ans");
+			//result= regToOut(var, "ans");
 		}
 		return result;
 	}
@@ -119,38 +110,7 @@ public class Calculator {
 			break;
 		}
 	}
-	private static String[] regToOut(Var var, String regid) {
-		String[] result= new String[]{"", "", ""};
-		BigDecimal bd= var.getBigDecimal(regid).round(mc);
-		Fse fse= Fse.values()[var.getInt("fse")];
-		int tab= var.getInt("tab");
-		int e= Integer.valueOf(df0.format(bd).split("E")[1]);
-		if (fse.equals(Fse.Eng)) { //eng
-			int b= 2-Math.floorMod(e, 3);
-			df1.applyPattern("000.000000000".substring(b, Integer.min(b+7, tab)+4)+"E00");
-			result= df1.format(bd).split("E");
-		} else if (fse.equals(Fse.Nrm) && -10<e && e<10) { //nrm
-			df1.applyPattern("0.#########");
-			result[0]= df1.format(bd);
-			result[1]= "";
-		} else if (fse.equals(Fse.Fix) && e<=-10) { //fix; 0<x<1e-9 -> 0
-			result[0]= "0."+"0".repeat(tab);
-			result[1]= "";
-		} else if (fse.equals(Fse.Fix) && e<10) { //fix
-			int b= Integer.min(9, 9-e);
-			df1.applyPattern("0000000000.000000000".substring(b, Integer.min(b+11, tab+11)));
-			result[0]= df1.format(bd);
-			result[1]= "";
-		} else { //sci
-			df1.applyPattern("0.000000000".substring(0, tab+2)+"E00");
-			result= df1.format(bd).split("E");
-		}
-		return result;
-	}
 }
-
-enum Base {Bin, Oct, Dec, Hex}
-enum Fse {Nrm, Fix, Sci, Eng}
 
 class Var {
 	private TreeMap<String, Integer> ints= new TreeMap<String, Integer>();
@@ -182,3 +142,6 @@ class Var {
 		return ints.toString()+"\r\n"+strings.toString()+"\r\n"+bigdecimals.toString();
 	}
 }
+
+enum Base {Dec, Bin, Oct, Hex}
+enum Fse {Nrm, Fix, Sci, Eng}
