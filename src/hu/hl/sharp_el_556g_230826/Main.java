@@ -203,7 +203,7 @@ class Calculator {
 		switch (key) {
 		case 0:
 		case 1:
-			reg.in(mode, drg, fse, tab, key);
+			reg.in(mode, key);
 		}
 		return reg.out(mode, drg, fse, tab);
 	}
@@ -214,7 +214,7 @@ class Reg {
 	enum Type {Nrm, Hms, Cfr, Cor}
 	private Type type;
 	private int index;
-	public void in(Calculator.Mode mode, Calculator.Drg drg, Calculator.Fse fse, Calculator.Tab tab, int key) {
+	public void in(Calculator.Mode mode, int key) {
 		
 	}
 	public String[] out(Calculator.Mode mode, Calculator.Drg drg, Calculator.Fse fse, Calculator.Tab tab) {
