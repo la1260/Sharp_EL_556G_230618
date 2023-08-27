@@ -19,7 +19,8 @@ public class Main implements KeyListener {
 	private JLabel label2;
 	private Calculator calculator;
 	public static void main(String[] args) {
-		new Main();
+		int[] i0= new int[1000000];
+//		new Main();
 	}
 	public Main() {
 		frame= new JFrame();
