@@ -98,7 +98,7 @@ class Input {
 	}
 	public void key(char key) {
 		switch (key) {
-		case 'f', 'e', 'd', 'c', 'b', 'a':
+/*		case 'f', 'e', 'd', 'c', 'b', 'a':
 			if (!type.equals(Type.Hex)) break;
 		case '9', '8':
 			if (type.equals(Type.Oct)) break;
@@ -122,7 +122,7 @@ class Input {
 			default:
 				break;
 			}
-			break;
+			break;*/
 		case '.':
 			if (type.equals(Type.Dec) && index<1) index= 1;
 			break;
