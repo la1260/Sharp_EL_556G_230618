@@ -140,6 +140,7 @@ class Calculator  {
 	private Stack<Double> values= new Stack<Double>();
 	private Stack<Instruction> instructions= new Stack<Instruction>();
 	protected int drg;
+	protected int base;
 	protected String error;
 	protected boolean n2df;
 	protected boolean hyp;
@@ -553,6 +554,15 @@ class Calculator  {
 			functDisplay= null;
 			numDisplay= null;
 			break;
+		case 'r':
+			if (error==null) {
+				execute1a(zl, (n2df) ? "npr" : "ncr");
+			}
+			n2df= false;
+			hyp= false;
+			functDisplay= null;
+			numDisplay= null;
+			break;
 		case '×':
 			out.append(String.format("--%n"));
 			return;
@@ -613,6 +623,8 @@ class Calculator  {
 				valueEldobas();
 			} else if (kModbanVagyunk()) {
 				instructions.firstElement().closeKMode();
+			} else {
+				System.out.println();
 			}
 			inputLezaras();
 		} else {
@@ -624,7 +636,8 @@ class Calculator  {
 			} else if (tobbAdatMintUtasitas()) {
 			} else if (utolsoUtasitasValuesHosszatCsokkenti()) {
 				instructionEldobas();
-			} else return;
+			} else 
+				return;
 		}
 		execute0(new Instruction(zl, 0, id));
 	}
@@ -767,6 +780,7 @@ class Instruction implements Comparable<Instruction> {
 		this.id= id;
 		switch (id) {
 		case "=": case ")": lvl[0]= 0; break;
+		case "npr": case "ncr": lvl[0]= 5; break;
 		case "+": case "-": lvl[0]= 10; break;
 		case "*": case "/": lvl[0]= 20; break;
 		case "(*)": lvl[0]= 30; break;
@@ -806,6 +820,8 @@ class Instruction implements Comparable<Instruction> {
 				case "/": values.push(values.pop()/d); break;
 				case "pwr": values.push(Math.pow(values.pop(), d)); break;
 				case "nrt": values.push(Math.pow(d, 1/values.pop())); break;
+				case "npr": if (isInteger(values.peek(), d)) values.push(fact(values.peek())/fact(values.pop()-d)); else values.push(Double.NaN); /* n!/(n-d)! */ break;
+				case "ncr": if (isInteger(values.peek(), d)) values.push(fact(values.peek())/fact(values.pop()-d)/fact(d)); else values.push(Double.NaN); /* n!/(n-d)!/d! */ break;
 				}
 			}
 		} else {
@@ -834,6 +850,16 @@ class Instruction implements Comparable<Instruction> {
 			}
 		}
 	}
+	private boolean isInteger(double a, double b) {
+		return Math.floor(a)==a && Math.floor(b)==b; 
+	}
+	private double fact(double n) {
+		double result= 1;
+		while (0<n) {
+			result*= n--;
+		}
+		return result;
+	}
 	private double drgToRad(int drg, double value) {
 		switch (drg) {
 		case 0: return value*Math.PI/180;
@@ -847,9 +873,9 @@ class Instruction implements Comparable<Instruction> {
 		case 2: return value*200/Math.PI;
 		default: return value;
 		}
-	}	
+	}
 	public boolean csokkentiValuesHosszat() {
-		return isAdditive() || isMultiplicative() || id.equals("(*)") || id.equals("pwr") || id.equals("nrt");
+		return isAdditive() || isMultiplicative() || id.equals("(*)") || id.equals("pwr") || id.equals("nrt") || id.equals("npr") || id.equals("ncr");
 	}
 	public boolean isAdditive() {
 		return id.equals("+") || id.equals("-");
@@ -928,6 +954,8 @@ class Instruction implements Comparable<Instruction> {
 		case "log": return " log";
 		case "ex": return " ex ";
 		case "ln": return " ln ";
+		case "npr": return " nPr";
+		case "ncr": return " nCr";
 		case "neg": return "   ~";
 		case "x+?": return " x+?";
 		case "?+x": return " ?+x";
@@ -938,7 +966,7 @@ class Instruction implements Comparable<Instruction> {
 		case "x/?": return " x/?";
 		case "?/x": return " ?/x";
 		default: return "    "; 
-		}		
+		}
 	}
 	public String toString() {
 		return String.format("[%s, %s, %s, %s]", lvl[2], lvl[1], lvl[0], id);
