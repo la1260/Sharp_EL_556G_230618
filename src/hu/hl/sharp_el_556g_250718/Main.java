@@ -100,6 +100,8 @@ public class Main {
 			}
 		});
 		textarea.addKeyListener(frame.getKeyListeners()[0]);
+		"f1+e=======r2=".chars().forEach(i -> calculator.key((char) i));
+		
 /*		Test.run0(calculator);
 		Test.run1(calculator);
 		Test.run2(calculator);
@@ -114,7 +116,7 @@ public class Main {
 //		"fn144n9=×".chars().forEach(i -> calculator.key((char) i)); //36
 //		"f.25mh270=×".chars().forEach(i -> calculator.key((char) i)); //4
 */
-		"fhnan729000000=".chars().forEach(i -> calculator.key((char) i));
+//		"fhnan729000000=".chars().forEach(i -> calculator.key((char) i));
 
 /*		"f2-3/5amagigi2=×".chars().forEach(i -> calculator.key((char) i)); //4
 		"1+2*(3+4(5-6)(7-8))=".chars().forEach(i -> calculator.key((char) i)); System.out.println("--"); //15
@@ -556,7 +558,16 @@ class Calculator  {
 			break;
 		case 'r':
 			if (error==null) {
-				execute1a(zl, (n2df) ? "npr" : "ncr");
+				inputLezaras();
+				if (kModbanVagyunk()) {
+					double d= values.firstElement();
+					Instruction i= instructions.firstElement();
+					execute1a(zl, (n2df) ? "npr" : "ncr");
+					values.add(0, d);
+					instructions.add(0, i);
+				} else {
+					execute1a(zl, (n2df) ? "npr" : "ncr");
+				}
 			}
 			n2df= false;
 			hyp= false;
@@ -780,9 +791,9 @@ class Instruction implements Comparable<Instruction> {
 		this.id= id;
 		switch (id) {
 		case "=": case ")": lvl[0]= 0; break;
-		case "npr": case "ncr": lvl[0]= 5; break;
 		case "+": case "-": lvl[0]= 10; break;
 		case "*": case "/": lvl[0]= 20; break;
+		case "npr": case "ncr": lvl[0]= 25; break;
 		case "(*)": lvl[0]= 30; break;
 		case "pwr": case "nrt": lvl[0]= 40; break;
 		case "asnh": case "asin": case "sinh": case "sin":
