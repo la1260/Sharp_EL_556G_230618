@@ -2,20 +2,39 @@ package hu.hl.sharp_el_556g_250718;
 
 public class Test {
 	public static void run0(Calculator calculator) {
-		/*		"d03*d30=×".chars().forEach(i -> calculator.key((char) i)); //81.5374894915
+		"2+3r3=×".chars().forEach(i -> calculator.key((char) i)); //3
+		"2*3r3=×".chars().forEach(i -> calculator.key((char) i)); //2
+		"f1+e=======r2====×".chars().forEach(i -> calculator.key((char) i)); //22
+		"2as8r4=×".chars().forEach(i -> calculator.key((char) i)); //1820
+		
+/*		"d03*d30=×".chars().forEach(i -> calculator.key((char) i)); //81.5374894915
 		"10*d01=×".chars().forEach(i -> calculator.key((char) i)); //2.99792458E9
 		"1048576=q/q2=×".chars().forEach(i -> calculator.key((char) i)); //20
 		"fdd13f10*80d01as=×".chars().forEach(i -> calculator.key((char) i)); //
 */
-
 		"f1+e==e==(6(7))==×".chars().forEach(i -> calculator.key((char) i)); //44
 		"f3+e5+9=×".chars().forEach(i -> calculator.key((char) i)); //17
 		"f3+e===6*8=×".chars().forEach(i -> calculator.key((char) i)); //51
 		"1-e===e6*8==×".chars().forEach(i -> calculator.key((char) i)); //-47 -47 
 		"2*e=3*5=×".chars().forEach(i -> calculator.key((char) i)); //30 
-		"2*e=3+5=×".chars().forEach(i -> calculator.key((char) i)); //11 
+		"2*e=3+5=×".chars().forEach(i -> calculator.key((char) i)); //11
 		
-		
+		"f1+e=2(3(5+7))==".chars().forEach(i -> calculator.key((char) i));
+		"f3=asagi=×".chars().forEach(i -> calculator.key((char) i));
+		"f9=n(9)=×".chars().forEach(i -> calculator.key((char) i));
+		"f1+e=6(7)=×".chars().forEach(i -> calculator.key((char) i));
+		"f1+e=(6(7))=×".chars().forEach(i -> calculator.key((char) i));
+		"fhnan729000000=".chars().forEach(i -> calculator.key((char) i));
+		"fh90n1=×".chars().forEach(i -> calculator.key((char) i));
+		"fn144n9=×".chars().forEach(i -> calculator.key((char) i)); //36
+		"f.25mh270=×".chars().forEach(i -> calculator.key((char) i)); //4
+
+		"f2-3/5amagigi2=×".chars().forEach(i -> calculator.key((char) i)); //4
+		"1+2*(3+4(5-6)(7-8))=".chars().forEach(i -> calculator.key((char) i)); System.out.println("--"); //15
+		"8/2*15y/((5-8)-7)+9+6*3=".chars().forEach(i -> calculator.key((char) i)); System.out.println("--"); //33
+
+		"f3=agi(2)=×".chars().forEach(i -> calculator.key((char) i));
+		"f3=agias=×".chars().forEach(i -> calculator.key((char) i));
 	}
 	public static void run1(Calculator calculator) {
 		"f2+3o+7=×".chars().forEach(i -> calculator.key((char) i)); //18
