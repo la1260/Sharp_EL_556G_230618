@@ -100,7 +100,7 @@ public class Main {
 			}
 		});
 		textarea.addKeyListener(frame.getKeyListeners()[0]);
-		"f1+e=======r2=".chars().forEach(i -> calculator.key((char) i));
+		"f1+e=======r2====".chars().forEach(i -> calculator.key((char) i));
 		
 /*		Test.run0(calculator);
 		Test.run1(calculator);
@@ -559,15 +559,7 @@ class Calculator  {
 		case 'r':
 			if (error==null) {
 				inputLezaras();
-				if (kModbanVagyunk()) {
-					double d= values.firstElement();
-					Instruction i= instructions.firstElement();
-					execute1a(zl, (n2df) ? "npr" : "ncr");
-					values.add(0, d);
-					instructions.add(0, i);
-				} else {
-					execute1a(zl, (n2df) ? "npr" : "ncr");
-				}
+				execute1a(zl, (n2df) ? "npr" : "ncr");
 			}
 			n2df= false;
 			hyp= false;
