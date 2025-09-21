@@ -100,10 +100,13 @@ public class Main {
 			}
 		});
 		textarea.addKeyListener(frame.getKeyListeners()[0]);
-		Test.run0(calculator);
+/*		Test.run0(calculator);
 		Test.run1(calculator);
 		Test.run2(calculator);
 		Test.run3(calculator);
+*/
+		"15a+".chars().forEach(i -> calculator.key((char) i));
+		
 		update();
 	}
 	private void update() {
@@ -371,7 +374,9 @@ class Calculator  {
 		case '+':
 			if (error==null) {
 				if (n2df) {
-					
+					if (base!=0) {
+						baseTo(0);
+					}
 				} else {
 					execute1a(zl, "+");
 				}
@@ -397,7 +402,9 @@ class Calculator  {
 		case '*':
 			if (error==null) {
 				if (n2df) {
-					
+					if (base!=3) {
+						baseTo(3);
+					}
 				} else {
 					execute1a(zl, "*");
 				}
@@ -537,8 +544,19 @@ class Calculator  {
 			break;
 		case 'r':
 			if (error==null) {
-				inputLezaras();
-				execute1a(zl, (n2df) ? "npr" : "ncr");
+				switch (base) {
+				case 0:
+					inputLezaras();
+					execute1a(zl, (n2df) ? "npr" : "ncr");
+					break;
+				case 3:
+					if (inputs[0].toString().equals("0")) {
+						inputs[0].removeLast();
+					}
+					if (inputs[0].stream().count()<10) {
+						inputs[0].add('f');
+					}
+				}
 			}
 			n2df= false;
 			hyp= false;
@@ -752,6 +770,11 @@ class Calculator  {
 	}
 	private boolean kModbanVagyunk() {
 		return vanUtasitas() && instructions.firstElement().isKMode();
+	}
+	private void baseTo(int base) {
+		inputLezaras();
+		key('=');
+		this.base= base;
 	}
 }
 
