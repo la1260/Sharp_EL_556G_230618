@@ -1,6 +1,7 @@
 package hu.hl.sharp_el_556g_241106;
 
 import java.awt.Color;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -12,7 +13,7 @@ public class Form {
 	private JLabel[] label= {new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel()};
 	private JTextArea textarea= new JTextArea();
 	private JScrollPane scrollpane= new JScrollPane();
-	public Form() {
+	public Form(KeyListener keylistener) {
 		JFrame frame= new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 200, 300, 400);
@@ -47,7 +48,15 @@ public class Form {
 		label[5].setVisible(true);
 		label[5].setLayout(null);
 		label[5].setBorder(BorderFactory.createLineBorder(Color.black));
-		frame.add(label[5]);		
+		frame.add(label[5]);
+		frame.addKeyListener(keylistener);
 	}
-
+	public void update(String[] displays) {
+		label[0].setText(displays[0]);
+		label[1].setText(displays[1]);
+		label[3].setText(displays[2]);
+		label[4].setText(displays[3]);
+		label[5].setText(displays[4]);
+		textarea.setText(displays[5]);
+	}
 }
