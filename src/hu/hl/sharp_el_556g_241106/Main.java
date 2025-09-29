@@ -2,14 +2,14 @@ package hu.hl.sharp_el_556g_241106;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.LinkedList;
 import java.util.Stack;
 import java.util.TreeMap;
 
 public class Main {
-	private Form form;
-	private Calculator calculator= new Calculator();
+	private final Form form;
 	private String keybuffer= "";
-	private String tokenbuffer= "";
+	private Calculator calculator= new Calculator();
 	
 /*	private StringBuilder keybuffer= new StringBuilder();
 	private TreeMap<String, KeyProcedure> keysequences= new TreeMap<String, KeyProcedure>();
@@ -29,8 +29,7 @@ public class Main {
 				}
 				if (' '<=k && k<='y') {
 //					form.update(calculator.sendkey(k));
-					keybuffer+= k;
-					System.out.printf("%s -> ", keybuffer);
+					System.out.printf("%s -> ", keybuffer+= k);
 					keybuffer= brb(keybuffer);
 				}
 			}
@@ -40,362 +39,177 @@ public class Main {
 	}
 	public String brb(String keybuffer) {
 		switch (keybuffer) {
-		case "a":
-			return keybuffer;
-		case "b":
-			return keybuffer;
-		case "c":
-			System.out.println("drg");
-			return "";
-		case "d":
-			System.out.println("cnst");
-			return "";
-		case "e":
-			System.out.println("back->input");
-			return "";			
-		case "f":
-			System.out.println("reset");
-			return "";
-		case "g":
-			System.out.println("hyp");
-			return "";
-		case "m":
-			System.out.println("y^x");
-			return "";
-		case "v":
-			return keybuffer; 
-		case "w":
-			return keybuffer;
-		case "x":
-			System.out.println("m+");
-			return "";
-		case "y":
-			System.out.println("+/-; neg; sumxx");
-			return "";
-		case "1":
-			System.out.println("1->input; sumxy");
-			return "";
-		case ".":
-			System.out.println(".->input; sumx");
-			return "";
-		case "*":
-			return keybuffer;
+		case "a":return keybuffer;
+		case "b":return keybuffer;
+		case "c":System.out.println("drg"); return "";
+		case "d":System.out.println("cnst"); return "";
+		case "e":System.out.println("back->input"); return "";			
+		case "f":System.out.println("reset"); return "";
+		case "g":return keybuffer;
+		case "h":System.out.println("sin; and"); return "";
+		case "m":System.out.println("y^x"); return "";
+		case "v":return keybuffer;
+		case "w":return keybuffer;
+		case "x":System.out.println("m+"); return "";
+		case "y":System.out.println("+/-; neg; sumxx"); return "";
+		case "1":System.out.println("1->input; sumxy"); return "";
+		case ".":System.out.println(".->input; sumx"); return "";
+		case "*":return keybuffer;
 			
-		case "aa":
-			System.out.println();
-			return "";
-		case "ab":
-			System.out.println("mdf");
-			return "";
-		case "ac":
-			System.out.println("drg>");
-			return "";
-		case "ad":
-			System.out.println("conv");
-			return "";
-		case "ae":
-			System.out.println("ca");
-			return "";			
-		case "af":
-			System.out.println("off");
-			return "";
-		case "ag":
-			System.out.println("hyp-1");
-			return "";
-		case "am":
-			System.out.println("xVy");
-			return "";
-		case "av":
-			return keybuffer;
-		case "aw":
-			System.out.println("_,_");
-			return "";
-		case "ax":
-			System.out.println("m-");
-			return "";
-		case "ay":
-			return keybuffer;
-		case "a1":
-			System.out.println("sumxy");
-			return "";
-		case "a.":
-			System.out.println("fse>");
-			return "";
-		case "a*":
-			System.out.println(">hex");
-			return "";
+		case "aa": System.out.println(); return "";
+		case "ab": System.out.println("mdf"); return "";
+		case "ac": System.out.println("drg>"); return "";
+		case "ad": System.out.println("conv"); return "";
+		case "ae": System.out.println("ca"); return "";			
+		case "af": System.out.println("off"); return "";
+		case "ag": System.out.println("hyp-1"); return "";
+		case "ah": System.out.println("sin-1"); return "";
+		case "am": System.out.println("xVy"); return "";
+		case "av": return keybuffer;
+		case "aw": System.out.println("_,_"); return "";
+		case "ax": System.out.println("m-"); return "";
+		case "ay": return keybuffer;
+		case "a1": System.out.println("sumxy"); return "";
+		case "a.": System.out.println("fse>"); return "";
+		case "a*": System.out.println(">hex"); return "";
 
-		case "ba":
-			return keybuffer;
-		case "bb":
-			System.out.println();
-			return "";
-		case "bc":
-			return brb("b");
-		case "bd":
-			return brb("b");
-		case "be":
-			return brb("b");
-		case "bf":
-			return brb("f");
-		case "bg":
-			return brb("b");
-		case "bm":
-			return brb("b");
-		case "bv":
-			return brb("b");
-		case "bw":
-			return brb("b");
-		case "bx":
-			return brb("b");
-		case "by":
-			return brb("b");
-		case "b1":
-			System.out.println("1 -> mode");
-			return "";
-		case "b.":
-			return brb("b");
-		case "b*":
-			return brb("b");
+		case "ba": return keybuffer;
+		case "bb": System.out.println(); return "";
+		case "bc": return brb("b");
+		case "bd": return brb("b");
+		case "be": return brb("b");
+		case "bf": return brb("f");
+		case "bg": return brb("b");
+		case "bh": return brb("b");
+		case "bm": return brb("b");
+		case "bv": return brb("b");
+		case "bw": return brb("b");
+		case "bx": return brb("b");
+		case "by": return brb("b");
+		case "b1": System.out.println("1 -> mode"); return "";
+		case "b.": return brb("b");
+		case "b*": return brb("b");
 			
-		case "ga":
-			return brb("ag");
-		case "gb":
-			return brb("b");
-		case "gc":
-			return brb("c");
-		case "gd":
-			return brb("d");
-		case "ge":
-			return brb("e");
-		case "gf":
-			return brb("f");
-		case "gg":
-			System.out.println();
-			return "";
-		case "gm":
-			return brb("m");
-		case "gv":
-			return brb("v");
-		case "gw":
-			return brb("w");
-		case "gx":
-			return brb("x");
-		case "gy":
-			return brb("y");
-		case "g1":
-			return brb("1");
-		case "g.":
-			System.out.println();
-			return "";
-		case "g*":
-			return brb("*");
+		case "ga": return brb("ag");
+		case "gb": return brb("b");
+		case "gc": return brb("c");
+		case "gd": return brb("d");
+		case "ge": return brb("e");
+		case "gf": return brb("f");
+		case "gg": System.out.println(); return "";
+		case "gh": System.out.println("hyp sin"); return "";
+		case "gm": return brb("m");
+		case "gv": return brb("v");
+		case "gw": return brb("w");
+		case "gx": return brb("x");
+		case "gy": return brb("y");
+		case "g1": return brb("1");
+		case "g.": System.out.println(); return "";
+		case "g*": return brb("*");
 			
-		case "va":
-			return brb("a");
-		case "vb":
-			return brb("b");
-		case "vc":
-			return brb("c");
-		case "vd":
-			return brb("d");
-		case "ve":
-			return brb("e");
-		case "vf":
-			return brb("f");
-		case "vg":
-			return brb("g");
-		case "vm":
-			System.out.println("rcl a");
-			return "";
-		case "vv":
-			System.out.println();
-			return "";
-		case "vw":
-			System.out.println();
-			return "";
-		case "vx":
-			System.out.println("rcl m");
-			return "";
-		case "vy":
-			return brb("y");
-		case "v1":
-			return brb("a1");
-		case "v.":
-			return brb(".");
-		case "v*":
-			return brb("*");
+		case "va": return brb("a");
+		case "vb": return brb("b");
+		case "vc": return brb("c");
+		case "vd": return brb("d");
+		case "ve": return brb("e");
+		case "vf": return brb("f");
+		case "vg": return brb("g");
+		case "vh": return brb("h");
+		case "vm": System.out.println("rcl a"); return "";
+		case "vv": System.out.println(); return "";
+		case "vw": System.out.println(); return "";
+		case "vx": System.out.println("rcl m"); return "";
+		case "vy": return brb("y");
+		case "v1": return brb("a1");
+		case "v.": return brb(".");
+		case "v*": return brb("*");
 
-		case "wa":
-			return brb("a");
-		case "wb":
-			return brb("b");
-		case "wc":
-			return brb("c");
-		case "wd":
-			return brb("d");
-		case "we":
-			return brb("e");
-		case "wf":
-			return brb("f");
-		case "wg":
-			return brb("g");
-		case "wm":
-			System.out.println("sto a");
-			return "";
-		case "wv":
-			System.out.println();
-			return "";
-		case "ww":
-			System.out.println();
-			return "";
-		case "wx":
-			System.out.println("sto m");
-			return "";
-		case "wy":
-			return brb("y");
-		case "w1":
-			return brb("1");
-		case "w.":
-			return brb(".");
-		case "w*":
-			return brb("*");
+		case "wa": return brb("a");
+		case "wb": return brb("b");
+		case "wc": return brb("c");
+		case "wd": return brb("d");
+		case "we": return brb("e");
+		case "wf": return brb("f");
+		case "wg": return brb("g");
+		case "wh": return brb("h");
+		case "wm": System.out.println("sto a"); return "";
+		case "wv": System.out.println(); return "";
+		case "ww": System.out.println(); return "";
+		case "wx": System.out.println("sto m");	return "";
+		case "wy": return brb("y");
+		case "w1": return brb("1");
+		case "w.": return brb(".");
+		case "w*": return brb("*");
 			
-		case "*a":
-			return brb("a");
-		case "*b":
-			return brb("b");
-		case "*c":
-			return brb("c");
-		case "*d":
-			return brb("d");
-		case "*e":
-			System.out.println("k mode");
-			return "";
-		case "*f":
-			System.out.println("ce");
-			return "";
-		case "*g":
-			return brb("g");
-		case "*m":
-			return brb("m");
-		case "*v":
-			return brb("v");
-		case "*w":
-			System.out.println();
-			return "";
-		case "*x":
-			System.out.println();
-			return "";
-		case "*y":
-			return brb("y");
-		case "*1":
-			return brb("1");
-		case "*.":
-			return brb("0.->input");
-		case "**":
-			return brb("*");
+		case "*a": brb("*"); return brb("a");
+		case "*b": brb("*"); return brb("b");
+		case "*c": brb("*"); return brb("c");
+		case "*d": brb("*"); return brb("d");
+		case "*e": brb("*"); System.out.println("k mode"); return "";
+		case "*f": brb("*"); System.out.println("ce"); return "";
+		case "*g": brb("*"); return brb("g");
+		case "*h": brb("*"); return brb("h");
+		case "*m": brb("*"); return brb("m");
+		case "*v": brb("*"); return brb("v");
+		case "*w": brb("*"); System.out.println(); return "";
+		case "*x": brb("*"); System.out.println(); return "";
+		case "*y": brb("*"); return brb("y");
+		case "*1": brb("*"); return brb("1");
+		case "*.": brb("*"); return brb("0.->input");
+		case "**": return brb("*");
 			
-		case "ava":
-			return brb("a");
-		case "avb":
-			return brb("b");
-		case "avc":
-			return brb("c");
-		case "avd":
-			return brb("d");
-		case "ave":
-			return brb("e");
-		case "avf":
-			return brb("f");
-		case "avg":
-			return brb("g");
-		case "avm":
-			System.out.println("alpha a");
-			return "";
-		case "avv":
-			System.out.println();
-			return "";
-		case "avw":
-			System.out.println();
-			return "";
-		case "avx":
-			System.out.println("alpha m");
-			return "";
-		case "avy":
-			return brb("y");
-		case "av1":
-			return brb("1");
-		case "av.":
-			return brb(".");
-		case "av*":
-			return brb("*");
+		case "ava": return brb("a");
+		case "avb": return brb("b");
+		case "avc": return brb("c");
+		case "avd": return brb("d");
+		case "ave": return brb("e");
+		case "avf": return brb("f");
+		case "avg": return brb("g");
+		case "avh":	return brb("h");
+		case "avm": System.out.println("alpha a"); return "";
+		case "avv": System.out.println(); return "";
+		case "avw": System.out.println(); return "";
+		case "avx": System.out.println("alpha m"); return "";
+		case "avy": return brb("y");
+		case "av1": return brb("1");
+		case "av.": return brb(".");
+		case "av*": return brb("*");
 			
-		case "aya":
-			return brb("a");
-		case "ayb":
-			return brb("b");
-		case "ayc":
-			return brb("c");
-		case "ayd":
-			return brb("d");
-		case "aye":
-			return brb("e");
-		case "ayf":
-			return brb("f");
-		case "ayg":
-			return brb("g");
-		case "aym":
-			return brb("m");
-		case "ayv":
-			return brb("v");
-		case "ayw":
-			return brb("w");
-		case "ayx":
-			return brb("x");
-		case "ayy":
-			return brb("y");
-		case "ay1":
-			System.out.println("1->tab");
-			return "";
-		case "ay.":
-			return brb(".");
-		case "ay*":
-			return brb("*");
+		case "aya": return brb("a");
+		case "ayb": return brb("b");
+		case "ayc": return brb("c");
+		case "ayd": return brb("d");
+		case "aye": return brb("e");
+		case "ayf": return brb("f");
+		case "ayg": return brb("g");
+		case "ayh": return brb("h");
+		case "aym": return brb("m");
+		case "ayv": return brb("v");
+		case "ayw": return brb("w");
+		case "ayx": return brb("x");
+		case "ayy": return brb("y");
+		case "ay1": System.out.println("1->tab"); return "";
+		case "ay.": return brb(".");
+		case "ay*": return brb("*");
 			
-		case "baa":
-			return brb("b");
-		case "bab":
-			return brb("b");
-		case "bac":
-			return brb("b");
-		case "bad":
-			return brb("b");
-		case "bae":
-			return brb("b");
-		case "baf":
-			return brb("f");
-		case "bag":
-			return brb("b");
-		case "bam":
-			return brb("b");
-		case "bav":
-			return brb("b");
-		case "baw":
-			return brb("b");
-		case "bax":
-			return brb("b");
-		case "bay":
-			return brb("b");
-		case "ba1":
-			return brb("b1");
-		case "ba.":
-			return brb("b");
-		case "ba*":
-			return brb("b");
+		case "baa": return brb("b");
+		case "bab": return brb("b");
+		case "bac": return brb("b");
+		case "bad": return brb("b");
+		case "bae": return brb("b");
+		case "baf": return brb("f");
+		case "bag": return brb("b");
+		case "bah": return brb("b");
+		case "bam": return brb("b");
+		case "bav": return brb("b");
+		case "baw": return brb("b");
+		case "bax": return brb("b");
+		case "bay": return brb("b");
+		case "ba1": return brb("b1");
+		case "ba.": return brb("b");
+		case "ba*": return brb("b");
 			
-		default:
-			return "";
+		default: return "";
 		}
 	}
 }
