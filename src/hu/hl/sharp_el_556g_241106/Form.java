@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -17,7 +18,6 @@ public class Form {
 		JFrame frame= new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 200, 300, 400);
-		frame.setVisible(true);
 		frame.setLayout(null);
 		label[0].setBounds(16, 16, 40, 24);
 		label[0].setVisible(true);
@@ -49,6 +49,20 @@ public class Form {
 		label[5].setLayout(null);
 		label[5].setBorder(BorderFactory.createLineBorder(Color.black));
 		frame.add(label[5]);
+		
+		JPanel panel= new JPanel();
+		panel.setBounds(16, 144, 200, 202);
+		panel.setBorder(BorderFactory.createLineBorder(Color.black));
+		textarea= new JTextArea(11, 15);
+		textarea.setEditable(false);
+		textarea.addKeyListener(keylistener);
+		JScrollPane scrollpane= new JScrollPane(textarea);
+		scrollpane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		panel.add(scrollpane);
+		frame.add(panel);
+		
+		frame.setVisible(true);
 		frame.addKeyListener(keylistener);
 	}
 	public void update(String[] displays) {

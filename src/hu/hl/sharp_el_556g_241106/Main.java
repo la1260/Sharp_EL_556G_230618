@@ -8,11 +8,10 @@ import java.util.TreeMap;
 
 public class Main {
 	private final Form form;
-	private String keybuffer= "";
 	private Calculator calculator= new Calculator();
+	private StringBuilder keybuffer= new StringBuilder();
 	
-/*	private StringBuilder keybuffer= new StringBuilder();
-	private TreeMap<String, KeyProcedure> keysequences= new TreeMap<String, KeyProcedure>();
+/*	private TreeMap<String, KeyProcedure> keysequences= new TreeMap<String, KeyProcedure>();
 	private StringBuilder tokenbuffer= new StringBuilder();
 	private TreeMap<String, TokenProcedure> tokensequences= new TreeMap<String, TokenProcedure>();
 */	
@@ -29,68 +28,161 @@ public class Main {
 				}
 				if (' '<=k && k<='y') {
 //					form.update(calculator.sendkey(k));
-					System.out.printf("%s -> ", keybuffer+= k);
-					keybuffer= brb(keybuffer);
+					String[] ss= new String[7];
+					brb(k);
+					ss[3]= String.format("%s,%s,%s,%s", _mode0.name(), _mode1.name(), _hyp.name(), _2ndf.name());
+					form.update(ss);
+//					System.out.printf("%s -> ", keybuffer);
 				}
 			}
 			public void keyReleased(KeyEvent keyevent) {}
 			public void keyTyped(KeyEvent keyevent) {}
 		});
+		interface IExecutable {
+			public void Execute();
+		}
+		
 	}
-	public String brb(String keybuffer) {
-		switch (keybuffer) {
-		case "a":return keybuffer;
-		case "b":return keybuffer;
-		case "c":System.out.println("drg"); return "";
-		case "d":System.out.println("cnst"); return "";
-		case "e":System.out.println("back->input"); return "";			
-		case "f":System.out.println("reset"); return "";
-		case "g":return keybuffer;
-		case "h":System.out.println("sin; and"); return "";
-		case "m":System.out.println("y^x"); return "";
-		case "v":return keybuffer;
-		case "w":return keybuffer;
-		case "x":System.out.println("m+"); return "";
-		case "y":System.out.println("+/-; neg; sumxx"); return "";
-		case "1":System.out.println("1->input; sumxy"); return "";
-		case ".":System.out.println(".->input; sumx"); return "";
-		case "*":return keybuffer;
-			
-		case "aa": System.out.println(); return "";
-		case "ab": System.out.println("mdf"); return "";
-		case "ac": System.out.println("drg>"); return "";
-		case "ad": System.out.println("conv"); return "";
-		case "ae": System.out.println("ca"); return "";			
-		case "af": System.out.println("off"); return "";
-		case "ag": System.out.println("hyp-1"); return "";
-		case "ah": System.out.println("sin-1"); return "";
-		case "am": System.out.println("xVy"); return "";
-		case "av": return keybuffer;
-		case "aw": System.out.println("_,_"); return "";
-		case "ax": System.out.println("m-"); return "";
-		case "ay": return keybuffer;
-		case "a1": System.out.println("sumxy"); return "";
-		case "a.": System.out.println("fse>"); return "";
-		case "a*": System.out.println(">hex"); return "";
+	
+	public static enum EMode0 {N, C, V, S};
+	public static enum EMode1 {D, B, O, H, X, R, V, SU, S0, S1, S2, S3, S4, S5, S6};
+	public static enum EHyp {N, Y};
+	public static enum E2ndf {N, Y};
+	EMode0 _mode0= EMode0.N;
+	EMode1 _mode1= EMode1.D;
+	EHyp _hyp= EHyp.N;
+	E2ndf _2ndf= E2ndf.N;
+	
+	public String getMode0(EMode0 _mode0) {
+		switch (_mode0) {
+		case N: return "normal";
+		case C: return "cplx";
+		case V: return "3-vle";
+		case S: return "stat";
+		}
+		return null;
+	}
+	public String getMode1(EMode1 _mode1) {
+		switch (_mode1) {
+		case D: return "dec";
+		case B: return "bin";
+		case O: return "oct";
+		case H: return "hex";
+		case X: return "xy";
+		case R: return "rθ";
+		case V: return "";
+		case SU: return "";
+		case S0: return "st0";
+		case S1: return "st1";
+		case S2: return "st2";
+		case S3: return "st3";
+		case S4: return "st4";
+		case S5: return "st5";
+		case S6: return "st6";
+		}
+		return null;
+	}
+	private String getHyp(EHyp _hyp) {
+		switch (_hyp) {
+		case N: return ""; 
+		case Y: return "hyp"; 
+		}
+		return null;
+	}
+	private String get2ndf(E2ndf _2ndf) {
+		switch (_2ndf) {
+		case N: return ""; 
+		case Y: return "2ndf"; 
+		}
+		return null;
+	}
 
-		case "ba": return keybuffer;
-		case "bb": System.out.println(); return "";
-		case "bc": return brb("b");
-		case "bd": return brb("b");
-		case "be": return brb("b");
-		case "bf": return brb("f");
-		case "bg": return brb("b");
-		case "bh": return brb("b");
-		case "bm": return brb("b");
-		case "bv": return brb("b");
-		case "bw": return brb("b");
-		case "bx": return brb("b");
-		case "by": return brb("b");
-		case "b1": System.out.println("1 -> mode"); return "";
-		case "b.": return brb("b");
-		case "b*": return brb("b");
+	public void brb(char key) {
+/*		switch (_mode0.name()+_mode1.name()+_hyp.name()+_2ndf.name()+key) {
+		case "NDNNa": // -
+		case "aabaa": // hyp
+			_2ndf= "b";
+			break;
+		case "aaaba": // 2ndf
+		case "aabba": // hyp,2ndf
+			_2ndf= "a";
+			break;
+		case "aaaag": // -
+		case "aaabg": // 2ndf
+			_hyp= "b";
+			break;
+		case "aabag": //
+		case "aabbg": //
+			_hyp= "a";
+			break;
+		case "aaaab": // -
+		case "aabab": // hyp
+			_mode0= "?";
+			break;
+		case "aaabb": // 2ndf
+			_2ndf= "a";
+			break;
+		case "aabbb": // hyp,2ndf
+			_hyp= "a";
+			_2ndf= "a";
+			break;
+		}*/
+//		System.out.printf("%s\n", stat);
+	}
+	public void brb2(StringBuilder keybuffer) {
+		switch (keybuffer.toString()) {
+		case "a": return;
+		case "b": return;
+		case "c": System.out.println("drg;"); keybuffer.setLength(0); return;
+		case "d": return;
+		case "e": System.out.println("input(back); switch;"); keybuffer.setLength(0); return;			
+		case "f": System.out.println("on/c;"); keybuffer.setLength(0); return;
+		case "g": return;
+		case "h": System.out.println("sin; and;"); keybuffer.setLength(0); return;
+		case "m": System.out.println("y^x;"); keybuffer.setLength(0); return;
+		case "v": return;
+		case "w": return;
+		case "x": System.out.println("m+;"); keybuffer.setLength(0); return;
+		case "y": System.out.println("+/-; neg;"); keybuffer.setLength(0); return;
+		case "1": System.out.println("input(1);"); keybuffer.setLength(0); return;
+		case ".": System.out.println("input(.);"); keybuffer.setLength(0); return;
+		case "*": return;
 			
-		case "ga": return brb("ag");
+		case "aa": System.out.println("∅"); keybuffer.setLength(0); return;
+		case "ab": System.out.println("mdf;"); keybuffer.setLength(0); return;
+		case "ac": System.out.println("drg>;"); keybuffer.setLength(0); return;
+		case "ad": return;
+		case "ae": System.out.println("ca;"); keybuffer.setLength(0); return;			
+		case "af": System.out.println("off;"); keybuffer.setLength(0); return;
+		case "ag": return;
+		case "ah": System.out.println("sin-1;"); keybuffer.setLength(0); return;
+		case "am": System.out.println("xVy;"); keybuffer.setLength(0); return;
+		case "av": return;
+		case "aw": System.out.println("_,_;"); keybuffer.setLength(0); return;
+		case "ax": System.out.println("m-;"); keybuffer.setLength(0); return;
+		case "ay": return;
+		case "a1": System.out.println("sumxy;"); keybuffer.setLength(0); return;
+		case "a.": System.out.println("fse>;"); keybuffer.setLength(0); return;
+		case "a*": System.out.println(">hex;"); keybuffer.setLength(0); return;
+
+/*		case "ba": return;
+		case "bb": System.out.println("∅"); keybuffer.setLength(0); return;
+		case "bc": keybuffer.setLength(0); brb(keybuffer.append("b")); return;
+		case "bd": keybuffer.setLength(0); brb(keybuffer.append("b")); return;
+		case "be": keybuffer.setLength(0); brb(keybuffer.append("b")); return;
+		case "bf": keybuffer.setLength(0); brb(keybuffer.append("f")); return;
+		case "bg": keybuffer.setLength(0); brb(keybuffer.append("b")); return;
+		case "bh": keybuffer.setLength(0); brb(keybuffer.append("b")); return;
+		case "bm": keybuffer.setLength(0); brb(keybuffer.append("b")); return;
+		case "bv": keybuffer.setLength(0); brb(keybuffer.append("b")); return;
+		case "bw": keybuffer.setLength(0); brb(keybuffer.append("b")); return;
+		case "bx": keybuffer.setLength(0); brb(keybuffer.append("b")); return;
+		case "by": keybuffer.setLength(0); brb(keybuffer.append("b")); return;
+		case "b1": System.out.println("mode(1)"); keybuffer.setLength(0); return;
+		case "b.": keybuffer.setLength(0); brb(keybuffer.append("b")); return;
+		case "b*": keybuffer.setLength(0); brb(keybuffer.append("b")); return;
+			
+/*		case "ga": return brb("ag");
 		case "gb": return brb("b");
 		case "gc": return brb("c");
 		case "gd": return brb("d");
@@ -158,6 +250,23 @@ public class Main {
 		case "*.": brb("*"); return brb("0.->input");
 		case "**": return brb("*");
 			
+		case "aga": return brb("g");
+		case "agb": return brb("b");
+		case "agc": return brb("c");
+		case "agd": return brb("d");
+		case "age": return brb("e");
+		case "agf": return brb("f");
+		case "agg": return brb("a");
+		case "agh":	return brb("h");
+		case "agm": System.out.println("alpha a"); return "";
+		case "agv": System.out.println(); return "";
+		case "agw": System.out.println(); return "";
+		case "agx": System.out.println("alpha m"); return "";
+		case "agy": return brb("y");
+		case "ag1": return brb("1");
+		case "ag.": return brb(".");
+		case "ag*": return brb("*");
+		
 		case "ava": return brb("a");
 		case "avb": return brb("b");
 		case "avc": return brb("c");
@@ -208,229 +317,66 @@ public class Main {
 		case "ba1": return brb("b1");
 		case "ba.": return brb("b");
 		case "ba*": return brb("b");
-			
-		default: return "";
+*/			
+		default: System.out.println("unknown"); keybuffer.setLength(0); return;
 		}
 	}
 }
-
-interface Procedure {
-	public void execute();
-}
-
-interface KeyProcedure extends Procedure {}
-interface TokenProcedure extends Procedure {}
 
 class Calculator {
-	protected int mode;
-	protected int base;
-	protected int coord;
-	protected int statn;
-	protected int drg;
-	protected int fse;
-	protected int tab;
-	protected boolean n2df;
-	protected boolean hyp;
-	protected int store;
-	
-	protected String error;
-//	private int zl;
-//	protected String functDisplay;
-//	protected String numDisplay;
-//	protected StringBuilder out= new StringBuilder();
-	public String[] sendkey(char k) {
-		switch (k) {
-		case 'a':
-			setN2df(!n2df);
-			break;
-		case 'f':
-			doReset();
-			setN2df(false);
-			break;
-		case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
-			if (isNoError()) {
-				doAddToLastInput(k);
-			}
-			setN2df(false);
-			break;
-		case '*':
-			if (isNoError()) {
-				if (isNormal() && !isHex() && n2df) {
-//					doHex();
-//				} else if () {
-//					getStatCReg();
-				} else {
-					doSzor();
-				}
-			}
-			setN2df(false);
-			break;
-		case '/':
-			if (isNoError()) {
-				doPer();
-			}
-			setN2df(false);
-			break;
-		case '+':
-			if (isNoError()) {
-				doPlusz();
-			}
-			setN2df(false);
-			break;
-		case '-':
-			if (isNoError()) {
-				doMinusz();
-			}
-			setN2df(false);
-			break;
-		case '(':
-			if (isNoError()) {
-				doZaroNyit();
-			}
-			setN2df(false);
-			break;
-		case ')':
-			if (isNoError()) {
-				doZaroZar();
-			}
-			setN2df(false);
-			break;
-		case 'c':
-			if (isNoError() && !isBin() && !isOct() && !isHex()) {
-				if (n2df) {
-					doEgyenlo();
-					doDRGStepNext();
-				} else {
-					doDRGNext();
-				}
-			}
-			setN2df(false);
-			break;
-		}
-		
-		
-		
-		String[] result= {"", "", "", "", "", ""};
-		if (!isNoError()) {
-			result[0]= "    ";
-		}
-		if (!isNoError()) {
-			result[1]= error.toString();
-		} else if (!isInputEmpty()) {
-			result[1]= inputstrs.peek().toString();
-		} else {
-			result[1]= "_";
-		}
-//		result[2]= ((n2df) ? "2ndf;" : "")+((hyp) ? "hyp;" : "")+((drg==0) ? "deg;" : (drg==1) ? "rad;" : "grad;");
-//		result[3]= String.format("%s", instructions.toString());
-//		result[4]= String.format("%s", k);
-//		result[5]= out.toString();
-		return result;
+	private int mode= 0;
+	public void toNorm() {
+		mode= 0;
 	}
-	
-	private final Stack<StringBuilder> inputstrs= new Stack<StringBuilder>();
-	public boolean isNoError() {
-		return error==null;
+	public void toCplx() {
+		mode= 4;
 	}
-	public boolean isCplx() {
-		return mode==1;
+	public void to3Vle() {
+		mode= 6;
 	}
-	public boolean isNormal() {
-		return mode==0;
-	}
-	public boolean isDec() {
-		return isNormal() && base==0;
-	}
-	public boolean isBin() {
-		return isNormal() && base==1;
-	}
-	public boolean isOct() {
-		return isNormal() && base==2;
-	}
-	public boolean isHex() {
-		return isNormal() && base==3;
-	}
-	public boolean isInputEmpty() {
-		return inputstrs.isEmpty();
-	}
-	public void setN2df(boolean n2df) {
-		this.n2df= n2df;
-	}
-	public void setHyp(boolean hyp) {
-		this.hyp= !hyp;
-	}
-	public void doReset() {
-		inputstrs.clear();
-		error= null;
-	}
-	public void doPlusz() {
+	public void toStat() {
 		
 	}
-	public void doMinusz() {
+	public void toDec() {
 		
 	}
-	public void doSzor() {
+	public void toBin() {
 		
 	}
-	public void doPer() {
+	public void toOct() {
 		
 	}
-	public void doEgyenlo() {
+	public void toHex() {
 		
 	}
-	public void doZaroNyit() {
+	public void toXY() {
 		
 	}
-	public void doZaroZar() {
+	public void toRθ() {
 		
 	}
-	public void doDRGNext() {
-		
-	}
-	public void doDRGStepNext() {
-		doDRGNext();
-	}
-	public void doAddToLastInput(char c) {
-		if (isInputEmpty()) {
-			doCreateInput();
-		}
-		inputstrs.peek().append(c);
-	}
-	private void doCreateInput() {
-		inputstrs.push(new StringBuilder());		
-	}
-}
-
-
-class Input {
-	private static int inputtype;
-	public static String inputstr;
-	public static void reset() {
-		inputstr= "";
-		inputtype= 0;
-	}
-	public static void append(char c) {
-		if ('0'<=c && c<='9') {
-			inputstr+= c;
-/*		} else if (c=='/') {
-			inputtype= 1;
-		} else if {
-		*/	
+	public void appendInput(char key) {
+		switch (key) {
+		case 0:
+		case 1:
 		}
 	}
-	public static Reg toReg() {
-		return new Reg(inputtype, inputstr); 
+	public void goPlus() {
+		
 	}
-}
-
-class Reg {
-	private int type;
-	private Object value;
-	public Reg(int inputtype, String inputstr) {
-		this.type= inputtype;
-		this.value= Double.valueOf(inputstr);
+	public void goSin() {
+		
 	}
-	public String toString() {
-		return String.format("%s;%s", type, value); 
+	public void goInvSin() {
+		
+	}
+	public void goHypSin() {
+		
+	}
+	public void goHypInvSin() {
+		
+	}
+	public void rcl(char reg) {
+		
 	}
 }
