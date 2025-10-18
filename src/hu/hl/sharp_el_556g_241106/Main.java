@@ -37,6 +37,7 @@ public class Main {
 			public void keyReleased(KeyEvent keyevent) {}
 			public void keyTyped(KeyEvent keyevent) {}
 		});
+		brb('f');
 	}
 	private void brb(char c) {
 		switch (c) {
@@ -77,7 +78,12 @@ class Output {
 		if (Input.isUres(sb.toString())) {
 			result[1]= "0";
 		} else {
-			result[1]= String.format("%s", sb.toString());
+			if (Input.isExp(sb.toString())) {
+				result[1]= String.format("%s", sb.toString().split("e")[0]);
+				result[2]= String.format("%s", sb.toString().split("e")[1]);
+			} else {
+				result[1]= String.format("%s", sb.toString());
+			}
 		}
 		return result;
 	}
@@ -101,7 +107,6 @@ class Input {
 			sb.insert(sb.length()-1, "0");
 		}
 		if (isUres(sb.toString())) {
-			sb.setLength(0);
 			sb.append("0");
 		}
 	}
@@ -167,7 +172,7 @@ class Input {
 		return s.matches("^-?\\d{1,3}(\\d{0,3}|/\\d{1,3})$") && !isNulla(s);
 	}
 	private static boolean isSzamMehet(String s) {
-		return (!isPer(s) || s.matches(".*/\\d{0,2}$")) && s.matches("^-?(\\d{0,9}|[\\d\\.]{2,10})$") || isExp(s) || isFok(s);
+		return s.matches("^-?(\\d{0,9}|[\\d\\.]{2,10})$") || s.matches("(?=^-?.{2,9}$)^.*/\\d{0,2}$") || isExp(s) || isFok(s);
 	}
 	private static boolean isPontMehet(String s) {
 		return !isPont(s) && !isPer(s) && !isExp(s) && !isFok(s);
@@ -190,13 +195,13 @@ class Input {
 	private static boolean isPer(String s) {
 		return s.contains("/");
 	}
-	private static boolean isExp(String s) {
+	public static boolean isExp(String s) {
 		return s.contains("e");
 	}
 	private static boolean isNegativ(String s) {
 		return (isExp(s)) ? s.charAt(s.indexOf("e")+1)=='-' : s.startsWith("-");
 	}
-	private static boolean isPont(String s) {
+	public static boolean isPont(String s) {
 		return s.contains(".");
 	}
 	private static boolean isPontUtso(String s) {
@@ -206,10 +211,10 @@ class Input {
 		return s.contains("°");
 	}
 	private static boolean isFokig(String s) {
-		return s.charAt(s.length()-3)=='°';
+		return isFok(s) && s.charAt(s.length()-3)=='°';
 	}
 	private static boolean isPercig(String s) {
-		return s.charAt(s.length()-3)=='\'';
+		return isFok(s) && s.charAt(s.length()-3)=='\'';
 	}
 }
 

@@ -68,7 +68,7 @@ public class Form {
 	public void update(String[] displays) {
 		label[0].setText(displays[0]);
 		label[1].setText(displays[1]);
-		label[3].setText(displays[2]);
+		label[2].setText(displays[2]);
 		label[4].setText(displays[3]);
 		label[5].setText(displays[4]);
 		textarea.setText(displays[5]);
